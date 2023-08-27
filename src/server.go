@@ -1,8 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"log"
-	"main/graph"
+	"main/src/common/db"
+	"main/src/graph/generated"
+	"main/src/graph/resolver"
 	"net/http"
 	"os"
 
@@ -17,8 +20,11 @@ func main() {
 	if port == "" {
 		port = defaultPort
 	}
-
-	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
+	if err := db.InitMongo(); err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolver.Resolver{}}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)
