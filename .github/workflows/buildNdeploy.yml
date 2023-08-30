@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: check path
         run: pwd
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           ref: ${{ github.ref }}
 
@@ -27,21 +27,19 @@ jobs:
     runs-on: self-hosted
     needs: build
     steps:
-      - name: checkout
+      - name: Checkout repository
         uses: actions/checkout@v2
       - name: Set up Git
         run: |
           git config user.name "RyanBreathings"
           git config user.email "ryan@breathings.co.kr"
-      - name: Prepare
-        id: vars
+      - name: Merge to main
         run: |
-          echo "BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
-          echo "COMMIT=$(git rev-parse --short ${GITHUB_SHA})" >> $GITHUB_OUTPUT
-      - name: Merge and Push
-        run: |
-          git fetch origin ${{ steps.vars.outputs.BRANCH }}
+          BRANCH=${GITHUB_REF#refs/heads/}
+          COMMIT=$(git rev-parse --short ${GITHUB_SHA})
+          
+          git fetch origin $BRANCH
           git checkout main
           git pull
-          git merge --no-ff ${{ steps.vars.outputs.BRANCH }} -m ${{ steps.vars.outputs.COMMIT }}
+          git merge --no-ff $BRANCH -m "Merge $BRANCH into main"
           git push origin main
