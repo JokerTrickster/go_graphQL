@@ -28,17 +28,20 @@ jobs:
     needs: build
     steps:
       - name: checkout
-        uses: actions/checkout@v3
-      - name: prepare
+        uses: actions/checkout@v2
+      - name: Set up Git
+        run: |
+          git config user.name "RyanBreathings"
+          git config user.email "ryan@breathings.co.kr"
+      - name: Prepare
         id: vars
         run: |
           echo "BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
           echo "COMMIT=$(git rev-parse --short ${GITHUB_SHA})" >> $GITHUB_OUTPUT
-      - name: merge
+      - name: Merge and Push
         run: |
-          git remote set-url origin https://JokerTrickster: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@github.com/JokerTrickster/go_graphQL.git
-          git fetch --unshallow
+          git fetch origin ${{ steps.vars.outputs.BRANCH }}
           git checkout main
           git pull
           git merge --no-ff ${{ steps.vars.outputs.BRANCH }} -m ${{ steps.vars.outputs.COMMIT }}
-          git push
+          git push origin main
