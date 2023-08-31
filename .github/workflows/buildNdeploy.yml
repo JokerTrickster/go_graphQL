@@ -33,8 +33,6 @@ jobs:
         run: |
           git config user.name "JokerTrickster"
           git config user.email "pkjhj485@gmail.com"
-          git config credential.helper store # Store credentials
-          git remote set-url origin https://JokerTrickster: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@github.com/JokerTrickster/go_graphQL.git
       - name: merge
         run: |
           git fetch --unshallow
