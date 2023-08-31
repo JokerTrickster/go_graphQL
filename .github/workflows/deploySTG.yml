@@ -1,4 +1,4 @@
-name: deploy DEV
+name: deploy STG
 
 on:
   workflow_dispatch:
