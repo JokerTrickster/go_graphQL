@@ -37,7 +37,6 @@ jobs:
         run: |
           BRANCH=${GITHUB_REF#refs/heads/}
           COMMIT=$(git rev-parse --short ${GITHUB_SHA})
-          
           git fetch origin $BRANCH
           git checkout main
           git pull
