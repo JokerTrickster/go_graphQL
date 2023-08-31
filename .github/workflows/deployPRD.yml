@@ -1,0 +1,41 @@
+name: deploy PRD
+
+on:
+  workflow_dispatch:
+
+jobs:
+  merge_to_prd:
+    name: Merge to PRD
+    runs-on: self-hosted
+    steps:
+      - name: Check Action Actor
+        if: github.actor != 'RyanBreathings' && github.actor != 'JokerTrickster'
+        run: |
+          echo "Actor is wrong: ${{ github.actor }}"
+          exit 1
+
+      - name: Check Action Branch
+        if: github.ref != 'refs/heads/stg'
+        run: |
+          echo "Running branch is wrong: ${{ github.ref }}"
+          exit 1
+
+      - name: Set up Git
+        run: |
+          git config user.name "RyanBreathings"
+          git config user.email "ryan@breathings.co.kr"
+          git config credential.helper store # Store credentials
+          git remote set-url origin https://JokerTrickster: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@github.com/JokerTrickster/go_graphQL.git
+
+      - name: Fetch PRD Branch
+        run: |
+          git fetch origin prd:prd
+          git checkout prd
+
+      - name: Merge STG into PRD
+        run: |
+          git merge --no-ff stg -m "Merge stg into prd"
+
+      - name: Push to PRD Branch
+        run: |
+          git push origin prd
