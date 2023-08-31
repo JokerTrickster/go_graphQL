@@ -1,10 +1,7 @@
-name: build n deploy
+name: deploy DEV
 
 on:
-  push:
-    branches:
-      - stg
-      - dev
+  workflow_dispatch:
 
 jobs:
   build:
@@ -16,6 +13,17 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.ref }}
+      - name: Check Action Actor
+        if: github.actor != 'RyanBreathings' && github.actor != 'JokerTrickster'
+        run: |
+          echo "Actor is wrong: ${{ github.actor }}"
+          exit 1
+
+      - name: Check Action Branch
+        if: github.ref != 'refs/heads/dev'
+        run: |
+          echo "Running branch is wrong: ${{ github.ref }}"
+          exit 1
 
   auto-merge:
     name: auto merge to main branch
