@@ -26,9 +26,10 @@ jobs:
         uses: actions/checkout@v2
       - name: merge
         run: |
+          BRANCH=${GITHUB_REF#refs/heads/}
           git remote set-url origin https://RyanBreathings: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@github.com/JokerTrickster/go_graphQL.git
-          git fetch --unshallow
+          git fetch origin $BRANCH
           git checkout main
           git pull
-          git merge --no-ff ${{ steps.vars.outputs.BRANCH }} -m ${{ steps.vars.outputs.COMMIT }}
-          git push
+          git merge --no-ff $BRANCH -m "Merge $BRANCH into main"
+          git push origin main
