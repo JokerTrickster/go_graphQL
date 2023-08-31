@@ -10,11 +10,6 @@ jobs:
   build:
     name: build n deploy
     runs-on: self-hosted
-    env:
-      REPO_DOMAIN: 190009833917.dkr.ecr.us-east-1.amazonaws.com
-      REPO_URL: ryan
-      CLUSTER_NAME: graphql
-      REGION: us-east-1
     steps:
       - name: check path
         run: pwd
