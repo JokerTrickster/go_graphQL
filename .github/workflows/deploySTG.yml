@@ -5,7 +5,7 @@ on:
 
 jobs:
   merge_to_prd:
-    name: Merge to PRD
+    name: Merge to STG
     runs-on: self-hosted
     steps:
       - name: Check Action Actor
@@ -15,7 +15,7 @@ jobs:
           exit 1
 
       - name: Check Action Branch
-        if: github.ref != 'refs/heads/stg'
+        if: github.ref != 'refs/heads/dev'
         run: |
           echo "Running branch is wrong: ${{ github.ref }}"
           exit 1
