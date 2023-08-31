@@ -22,10 +22,8 @@ jobs:
 
       - name: Set up Git
         run: |
-          git config user.name "RyanBreathings"
-          git config user.email "ryan@breathings.co.kr"
-          git config credential.helper store # Store credentials
-          git remote set-url origin https://JokerTrickster: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@github.com/JokerTrickster/go_graphQL.git
+          git config user.name "JokerTrickster"
+          git config user.email "pkjhj485@gmail.com"
 
       - name: Fetch STG Branch
         run: |
