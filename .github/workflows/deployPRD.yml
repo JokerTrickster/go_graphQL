@@ -1,9 +1,11 @@
 name: deploy PRD
 
 on:
-  create:
-    tags:
-      - 'v*' # 태그 이름이 'v'로 시작하는 경우에만 동작하도록 설정
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to deploy'
+        required: true
 
 jobs:
   merge_to_prd:
@@ -42,5 +44,5 @@ jobs:
 
       - name: Create Release
         run: |
-          git tag -a ${{ github.event.ref }} -m "Release ${{ github.event.ref }}"
-          git push origin ${{ github.event.ref }}
+          git tag -a ${{ github.event.inputs.tag }} -m "Release ${{ github.event.inputs.tag }}"
+          git push origin ${{ github.event.inputs.tag }}
