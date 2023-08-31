@@ -5,7 +5,10 @@ on:
     inputs:
       tag:
         description: 'Tag to deploy'
-        required: true
+        required: false
+      tag_description:
+        description: 'Tag description'
+        required: false
 
 jobs:
   merge_to_prd:
@@ -44,5 +47,5 @@ jobs:
 
       - name: Create Release
         run: |
-          git tag -a ${{ github.event.inputs.tag }} -m "Release ${{ github.event.inputs.tag }}"
+          git tag -a ${{ github.event.inputs.tag }} -m "${{ github.event.inputs.tag_description }}"
           git push origin ${{ github.event.inputs.tag }}
