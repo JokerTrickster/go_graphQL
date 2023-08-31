@@ -28,6 +28,11 @@ jobs:
         run: |
           git config user.name "RyanBreathings"
           git config user.email "ryan@breathings.co.kr"
+
+      - name: Create and Checkout Main Branch
+        run: |
+          git checkout -b main
+          git push origin main
       - name: Merge to main
         run: |
           BRANCH=${GITHUB_REF#refs/heads/}
