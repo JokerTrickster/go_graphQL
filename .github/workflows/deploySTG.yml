@@ -1,0 +1,39 @@
+name: deploy STG
+
+on:
+  workflow_dispatch:
+
+jobs:
+  merge_to_prd:
+    name: Merge to STG
+    runs-on: self-hosted
+    steps:
+      - name: Check Action Actor
+        if: github.actor != 'RyanBreathings' && github.actor != 'JokerTrickster'
+        run: |
+          echo "Actor is wrong: ${{ github.actor }}"
+          exit 1
+
+      - name: Check Action Branch
+        if: github.ref != 'refs/heads/dev'
+        run: |
+          echo "Running branch is wrong: ${{ github.ref }}"
+          exit 1
+
+      - name: Set up Git
+        run: |
+          git config user.name "JokerTrickster"
+          git config user.email "pkjhj485@gmail.com"
+
+      - name: Fetch STG Branch
+        run: |
+          git fetch origin stg:stg
+          git checkout stg
+
+      - name: Merge DEV into STG
+        run: |
+          git merge --no-ff dev -m "Merge dev into stg"
+
+      - name: Push to STG Branch
+        run: |
+          git push origin stg
