@@ -27,11 +27,6 @@ jobs:
     runs-on: self-hosted
     needs: build
     steps:
-      - name: prepare envs
-        id: vars
-        run: |
-          echo "BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
-          echo "COMMIT=$(git rev-parse --short ${GITHUB_SHA})" >> $GITHUB_OUTPUT
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Set up Git
@@ -42,7 +37,6 @@ jobs:
         run: |
           BRANCH=${GITHUB_REF#refs/heads/}
           COMMIT=$(git rev-parse --short ${GITHUB_SHA})
-          
           git fetch origin $BRANCH
           git checkout main
           git pull
