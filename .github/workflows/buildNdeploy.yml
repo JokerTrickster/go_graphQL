@@ -24,21 +24,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Set up Git
+      - name: merge
         run: |
-          git config user.name "RyanBreathings"
-          git config user.email "ryan@breathings.co.kr"
-
-      - name: Create and Checkout Main Branch
-        run: |
-          git checkout -b main
-          git push origin main
-      - name: Merge to main
-        run: |
-          BRANCH=${GITHUB_REF#refs/heads/}
-          COMMIT=$(git rev-parse --short ${GITHUB_SHA})
-          git fetch origin $BRANCH
+          git remote set-url origin https://RyanBreathings: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@github.com/JokerTrickster/go_graphQL.git
+          git fetch --unshallow
           git checkout main
           git pull
-          git merge --no-ff $BRANCH -m "Merge $BRANCH into main"
-          git push origin main
+          git merge --no-ff ${{ steps.vars.outputs.BRANCH }} -m ${{ steps.vars.outputs.COMMIT }}
+          git push
