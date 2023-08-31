@@ -2,10 +2,6 @@ name: deploy PRD
 
 on:
   workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Tag to deploy'
-        required: true
 
 jobs:
   merge_to_prd:
@@ -41,8 +37,3 @@ jobs:
       - name: Push to PRD Branch
         run: |
           git push origin prd
-
-      - name: Create Release
-        run: |
-          git tag -a ${{ github.event.inputs.tag }} -m "Release ${{ github.event.inputs.tag }}"
-          git push origin ${{ github.event.inputs.tag }}
