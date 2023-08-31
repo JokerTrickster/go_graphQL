@@ -32,7 +32,7 @@ jobs:
       - name: merge
         run: |
           BRANCH=${GITHUB_REF#refs/heads/}
-          git remote set-url origin https://RyanBreathings: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@github.com/JokerTrickster/go_graphQL.git
+          git remote set-url origin https://JokerTrickster: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@github.com/JokerTrickster/go_graphQL.git
           git fetch --unshallow
           git checkout main
           git pull
