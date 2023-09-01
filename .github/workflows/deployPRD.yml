@@ -34,5 +34,5 @@ jobs:
       - name: Merge Tag into PRD
         run: |
           tag="${{ github.event.inputs.tag }}"
-          git merge --no-ff "refs/tags/$tag" -m "Merge $tag into prd"
-          git push origin prd
+          git reset --hard $tag
+          git push --force origin prd
