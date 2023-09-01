@@ -27,19 +27,10 @@ jobs:
         run: |
           git fetch origin prd:prd
           git checkout prd
-
-      - name: Merge STG into PRD
-        run: |
-          git merge --no-ff stg -m "Merge stg into prd"
-
-      - name: Push to PRD Branch
-        run: |
-          git push origin prd
-
-      - name: Check Tag and Deploy
+      - name: Checkout Tag and Push to PRD
         run: |
           tags="${{ inputs.tags }}"
-          echo "Selected tag to deploy: $tags"
-          # 이제 선택한 태그를 기반으로 배포 스크립트 또는 명령어를 실행할 수 있습니다.
+          git checkout $tags  # 원하는 태그로 체크아웃
+          git push origin $tags:prd  # 해당 태그를 prd 브랜치로 푸시
         env:
           TAGS: ${{ inputs.tags }}
