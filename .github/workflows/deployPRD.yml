@@ -2,6 +2,10 @@ name: deploy PRD
 
 on:
   workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Tag to deploy'
+        required: true
 
 jobs:
   merge_to_prd:
@@ -13,11 +17,7 @@ jobs:
         run: |
           echo "Actor is wrong: ${{ github.actor }}"
           exit 1
-      - name: Check Tag
-        run: |
-          echo "Tags: $TAGS"
-        env:
-          TAGS: ${{ inputs.tags }}
+
       - name: Set up Git
         run: |
           git config user.name "JokerTrickster"
@@ -35,3 +35,11 @@ jobs:
       - name: Push to PRD Branch
         run: |
           git push origin prd
+
+      - name: Check Tag and Deploy
+        run: |
+          tags="${{ inputs.tags }}"
+          echo "Selected tag to deploy: $tags"
+          # 이제 선택한 태그를 기반으로 배포 스크립트 또는 명령어를 실행할 수 있습니다.
+        env:
+          TAGS: ${{ inputs.tags }}
