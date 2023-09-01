@@ -26,6 +26,7 @@ jobs:
 
       - name: Fetch PRD Branch
         run: |
+          git checkout dev
           git init
           git fetch origin prd:prd
           git checkout prd
