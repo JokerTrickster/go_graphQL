@@ -27,6 +27,13 @@ jobs:
         run: |
           git fetch origin prd:prd
           git checkout prd
+      - name: Fetch PRD Branch and Update
+        run: |
+          git fetch origin prd:prd
+          git checkout prd
+          git pull origin prd  # "prd" 브랜치를 최신 상태로 업데이트
+        continue-on-error: true  # 만약 "prd" 브랜치가 없을 경우 계속 진행
+
       - name: Checkout Tag and Push to PRD
         run: |
           tags="${{ inputs.tags }}"
