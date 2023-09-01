@@ -23,10 +23,6 @@ jobs:
           git config user.name "JokerTrickster"
           git config user.email "pkjhj485@gmail.com"
 
-      - name: Fetch PRD Branch
-        run: |
-          git fetch origin prd:prd
-          git checkout prd
       - name: Fetch PRD Branch and Update
         run: |
           git fetch origin prd:prd
