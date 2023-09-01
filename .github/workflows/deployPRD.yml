@@ -15,9 +15,9 @@ jobs:
           exit 1
 
       - name: Check Action Branch
-        if: github.event.inputs.tag
+        if: !github.event.inputs.tag
         run: |
-          echo "Running tag is wrong: ${{ github.event.inputs.tag }}"
+          echo "This is not a tag event"
           exit 1
 
       - name: Set up Git
