@@ -1,16 +1,17 @@
-name: deploy PRD
+name: Merge Tag to PRD
 
 on:
   workflow_dispatch:
     inputs:
-      tags:
-        description: 'Tag to deploy'
+      tag:
+        description: 'Tag to merge to PRD'
         required: true
 
 jobs:
   merge_to_prd:
     name: Merge to PRD
     runs-on: self-hosted
+
     steps:
       - name: Check Action Actor
         if: github.actor != 'RyanBreathings' && github.actor != 'JokerTrickster'
@@ -23,17 +24,13 @@ jobs:
           git config user.name "JokerTrickster"
           git config user.email "pkjhj485@gmail.com"
 
-      - name: Fetch PRD Branch and Update
+      - name: Fetch PRD Branch
         run: |
           git fetch origin prd:prd
           git checkout prd
-          git pull origin prd  # "prd" 브랜치를 최신 상태로 업데이트
-        continue-on-error: true  # 만약 "prd" 브랜치가 없을 경우 계속 진행
 
-      - name: Checkout Tag and Push to PRD
+      - name: Merge Tag into PRD
         run: |
-          tags="${{ inputs.tags }}"
-          git checkout $tags  # 원하는 태그로 체크아웃
-          git push origin $tags:prd  # 해당 태그를 prd 브랜치로 푸시
-        env:
-          TAGS: ${{ inputs.tags }}
+          tag="${{ github.event.inputs.tag }}"
+          git merge --no-ff "refs/tags/$tag" -m "Merge $tag into prd"
+          git push origin prd
