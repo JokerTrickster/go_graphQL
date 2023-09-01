@@ -13,14 +13,11 @@ jobs:
         run: |
           echo "Actor is wrong: ${{ github.actor }}"
           exit 1
-      - name: Check Action Branch
+      - name: Check Tag
         run: |
-          tag_value="${{ github.event.inputs.tag }}"
-          if [ -z "$tag_value" ]; then
-            echo "Tag value is empty or not provided."
-          else
-            echo "Tag value is: $tag_value"
-          fi
+          echo "Tags: $TAGS"
+        env:
+          TAGS: ${{ inputs.tags }}
       - name: Set up Git
         run: |
           git config user.name "JokerTrickster"
