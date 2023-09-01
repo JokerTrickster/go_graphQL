@@ -29,7 +29,7 @@ func main() {
 		fmt.Println(err.Error())
 		return
 	}
-	fmt.Println("tag test")
+	fmt.Println("tag test2")
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolver.Resolver{}}))
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)
